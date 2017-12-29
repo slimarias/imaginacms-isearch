@@ -7,9 +7,11 @@ $router->group(['prefix' => trans('isearch::common.url')], function (Router $rou
 
     $locale = LaravelLocalization::setLocale() ?: App::getLocale();
 
-    $router->post('/', [
+    
+    $router->get('/{search}', [
         'as' => $locale.'.isearch.search',
         'uses' => 'PublicController@search'
     ]);
+	
 
 });

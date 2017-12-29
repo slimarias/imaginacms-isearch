@@ -8,6 +8,7 @@ use Modules\Core\Http\Controllers\BasePublicController;
 use Modules\Iblog\Entities\Post;
 use Modules\Isearch\Http\Requests\IsearchRequest;
 use Modules\Setting\Contracts\Setting;
+use Illuminate\Support\Facades\Input;
 
 use Request;
 use Log;
@@ -37,11 +38,10 @@ class PublicController extends BasePublicController
     }
 
 
-    public function search(IsearchRequest $request)
+    public function search($search)
     {
 
-
-        $searchphrase = $request->search;
+        $searchphrase = $search;
 
         $modules = config('asgard.isearch.config.queries');
 

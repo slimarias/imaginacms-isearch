@@ -4,7 +4,7 @@
 @stop
 @section('content')
 
-<div class="page blog">
+<div class="page blog isearch">
     <div class="container">
         <div class="row">
 
@@ -24,7 +24,7 @@
                 @if (isset($results_post) && !empty($results_post))
                     @foreach($results_post as $k => $results)
                         @php $cont = 0; @endphp
-                        <h2 class="page-header">{{trans($k.'::common.'.$k)}}</h2>
+                        {{-- <h2 class="page-header">{{trans($k.'::common.'.$k)}}</h2> --}}
                         @foreach($results as $result)
                             <!-- Blog Post -->
                                 <div class="col-xs-6 col-sm-4 contend post post{{$result->id}}">
