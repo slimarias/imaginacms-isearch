@@ -11,7 +11,6 @@ use Modules\Setting\Contracts\Setting;
 use Illuminate\Support\Facades\Input;
 use Modules\Iblog\Transformers\PostTransformer;
 
-
 use Request;
 use Log;
 
