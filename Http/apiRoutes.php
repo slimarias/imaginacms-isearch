@@ -6,7 +6,7 @@ use Illuminate\Routing\Router;
 $router->group(['prefix' =>'/isearch'], function (Router $router) {
     $router->get('/', [
         'as' => 'isearch.api.search.index',
-        'uses' => 'IsearchController@index',
+        'uses' => 'IsearchController@search',
         //'middleware' => 'can:page.pages.index',
     ]);
 });
