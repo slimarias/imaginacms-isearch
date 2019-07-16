@@ -2,6 +2,7 @@
 
 namespace Modules\Isearch\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Mockery\CountValidator\Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Modules\Core\Http\Controllers\BasePublicController;
@@ -10,7 +11,6 @@ use Modules\Isearch\Http\Requests\IsearchRequest;
 use Modules\Setting\Contracts\Setting;
 use Illuminate\Support\Facades\Input;
 
-use Request;
 use Log;
 
 class PublicController extends BasePublicController
@@ -38,31 +38,32 @@ class PublicController extends BasePublicController
     }
 
 
-    public function search($search)
+    public function search(Request $request)
     {
 
-        $searchphrase = $search;
-
-        $modules = config('asgard.isearch.config.queries');
-
-        if (isset($modules) && !empty($modules)) {
-            foreach ($modules as $k => $module) {
-                $data = $module($searchphrase);
-                if (!$data->isEmpty()) {
-                    $results_post[$k] = $data ;
-                }
-            }
+        $searchphrase = $request->input('q');
+        $take=12;
+        if(config('asgard.isearch.config.queries.iblog')){
+            $posts=app('Modules\Iblog\Repositories\PostRepository');
+            $items=$posts->getItemsBy(json_decode(json_encode(['filter'=>['search'=>$searchphrase],'page'=>$request->page??1, 'take'=> $take, 'include'=>['user']])));
+            $result['post']=["title"=>trans('iblog::post.title.posts'),'items'=>$items];
         }
-        $iblog = $this->post->where('title','LIKE',"%{$searchphrase}%")
-                        ->orWhere('description','LIKE',"%{$searchphrase}%")
-                        ->orderBy('created_at', 'DESC')->paginate(12);
 
-        if(!$iblog->isEmpty())$results_post['iblog']= $iblog;
-        if(!isset($results_post) && empty($results_post))$results_post=null;
-
+        if(config('asgard.isearch.config.queries.iplaces')){
+            $posts=app('Modules\Iplaces\Repositories\PlaceRepository');
+            $items=$posts->getItemsBy(json_decode(json_encode(['filter'=>['search'=>$searchphrase],'page'=>$request->page??1, 'take'=> $take, 'include'=>['user']])));
+            $result['places']=["title"=>trans('iplaces::places.title.places'),'items'=>$items];
+        }
+        if(config('asgard.isearch.config.queries.iperformers')){
+            $posts=app('Modules\Iplaces\Repositories\PlaceRepository');
+            $items=$posts->getItemsBy(json_decode(json_encode(['filter'=>['search'=>$searchphrase],'page'=>$request->page??1, 'take'=> $take, 'include'=>['user']])));
+            $result['places']=["title"=>trans('iplaces::places.title.places'),'items'=>$items];
+        }
         $tpl = 'isearch::index';
+        $ttpl = 'isearch.index';
+        if (view()->exists($ttpl)) $tpl = $ttpl;
 
-        return view($tpl, compact('results_post', 'searchphrase'));
+        return view($tpl, compact('result', 'searchphrase'));
 
 
     }

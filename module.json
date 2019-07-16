@@ -4,7 +4,7 @@
     "description": "",
     "keywords": [],
     "active": 1,
-    "version": "1.0.2",
+    "version": "3.0.0",
     "order": 1,
     "providers": [
         "Modules\\Isearch\\Providers\\IsearchServiceProvider",

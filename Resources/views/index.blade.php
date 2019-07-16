@@ -1,50 +1,47 @@
 @extends('layouts.master')
 @section('title')
-     {{trans('isearch::common.title')}}-{{$searchphrase}} | @parent
+    {{trans('isearch::common.title')}}-{{$searchphrase}} | @parent
 @stop
 @section('content')
 
-<div class="page blog isearch">
-    <div class="container">
-        <div class="row">
-
+    <div class="page blog isearch">
+        <div class="container">
             <div class="row">
-                <div class="col-xs-12">
-                    <ol class="breadcrumb">
-                        <li><a href="/">Inicio</a></li>
-                        <li>{{trans('isearch::common.search')}} "{{$searchphrase}}"</li>
-                    </ol>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Inicio</a></li>
+                            <li>{{trans('isearch::common.search')}} "{{$searchphrase}}"</li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Blog Entries Column -->
-            <div class="col-xs-12 col-md-12 category-body-1">
+                <!-- Blog Entries Column -->
+                <div class="col-xs-12 col-md-12 category-body-1">
 
-                <h1 class="page-header">{{trans('isearch::common.search')}} "{{$searchphrase}}"</h1>
-                @if (isset($results_post) && !empty($results_post))
-                    @foreach($results_post as $k => $results)
-                        @php $cont = 0; @endphp
-                        {{-- <h2 class="page-header">{{trans($k.'::common.'.$k)}}</h2> --}}
-                        @foreach($results as $result)
+                    <h1 class="page-header">{{trans('isearch::common.search')}} "{{$searchphrase}}"</h1>
+
+                    @if (isset($result) && !empty($result))
+                        @foreach($result as $k => $entities)
+
+                            @php $cont = 0; @endphp
+                            <h2 class="page-header">{{$entities['title']}}</h2>
+                            @foreach($entities['items'] as $result)
                             <!-- Blog Post -->
                                 <div class="col-xs-6 col-sm-4 contend post post{{$result->id}}">
                                     <div class="bg-imagen">
                                         <a href="{{$result->url}}">
-                                            @if(isset($result->options->mainimage)&&!empty($result->options->mainimage))
-                                                <img class="image img-responsive"
-                                                     src="{{url(str_replace('.jpg','_mediumThumb.jpg',$result->options->mainimage))}}"
-                                                     alt="{{$result->title}}"/>
-                                            @else
-                                                <img class="image img-responsive"
-                                                     src="{{url('module/iblog/img/post/default.jpg')}}"
-                                                     alt="{{$result->title}}"/>
-                                            @endif
+                                            <img class="image img-responsive"
+                                                 src="{{url(str_replace('.jpg','_mediumThumb.jpg',$result->mainimage->path??''))}}"
+                                                 alt="{{$result->title}}"/>
                                         </a>
                                     </div>
                                     <div class="content">
                                         <a href="{{$result->url}}"><h2>{{$result->title}}</h2></a>
                                         <p>{!! $result->summary!!}</p>
-                                        <a class="btn btn-primary post-link" href="{{$result->url}}">{{trans('isearch::common.index.Read More')}}<span
+                                        <a class="btn btn-primary post-link"
+                                           href="{{$result->url}}">{{trans('isearch::common.index.Read More')}}<span
                                                     class="glyphicon glyphicon-chevron-right"></span></a>
                                     </div>
                                 </div>
@@ -59,37 +56,37 @@
                             <div class="clearfix"></div>
                             <div class="pagination paginacion-blog row">
                                 <div class="pull-right">
-                                    {{$results->links()}}
                                 </div>
                             </div>
                         @endforeach
                     @else
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="error-template">
-                                <h2 class="h1">
-                                    Oops!</h2>
-                                <h2>
-                                    {{trans('isearch::common.index.Not Found')}} </h2>
-                                <div class="error-details">
-                                    {{trans('isearch::common.index.Not msg')}}
-                                </div>
-                                <div class="error-actions">
-                                    <a href="{{url('/')}}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                                        {{trans('isearch::common.index.Not btn')}} </a>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="error-template">
+                                    <h2 class="h1">
+                                        Oops!</h2>
+                                    <h2>
+                                        {{trans('isearch::common.index.Not Found')}} </h2>
+                                    <div class="error-details">
+                                        {{trans('isearch::common.index.Not msg')}}
+                                    </div>
+                                    <div class="error-actions">
+                                        <a href="{{url('/')}}" class="btn btn-primary btn-lg"><span
+                                                    class="glyphicon glyphicon-home"></span>
+                                            {{trans('isearch::common.index.Not btn')}} </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
+
+                </div>
 
             </div>
 
         </div>
-        
-    </div>
 
-</div>
+    </div>
 @stop
 
 @section('scripts')

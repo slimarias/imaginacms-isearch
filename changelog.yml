@@ -1,0 +1,12 @@
+url: https://github.com/imagina/asgardcms-iblog
+versions:
+  "3.0.0":
+    added:
+     - config validate search module active
+    changed:
+
+    remove:
+      - config query consult.
+  "1.0.2":
+    added:
+      - version stable by Bcrud modules

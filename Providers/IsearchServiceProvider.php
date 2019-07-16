@@ -33,6 +33,7 @@ class IsearchServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishConfig('isearch', 'permissions');
+        $this->publishConfig('isearch', 'config');
     }
 
     /**
