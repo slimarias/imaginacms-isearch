@@ -38,23 +38,27 @@ class IsearchController extends BasePublicController
   public function search(Request $request)
   {
     try {
-      $searchParameter = $request->input('search');
+        $searchphrase = $request->input('search');
 
       $modules = config('asgard.isearch.config.queries');
 
       if (isset($modules) && !empty($modules)) {
         foreach ($modules as $k => $module) {
-          $data = $module($searchParameter);
+          $data = $module($searchphrase);
           if (!$data->isEmpty()) {
             $results_post[$k] = $data;
           }
         }
       }
-      $iblog = $this->post->where('title', 'LIKE', "%{$searchParameter}%")
-        ->orWhere('description', 'LIKE', "%{$searchParameter}%")
-        ->orderBy('created_at', 'DESC')->paginate(12);
 
-      if (!$iblog->isEmpty()) $results_post['iblog'] = PostTransformer::collection($iblog);
+        $take=12;
+        if(config('asgard.isearch.config.queries.iblog')){
+            $posts=app('Modules\Iblog\Repositories\PostRepository');
+            $items=$posts->getItemsBy(json_decode(json_encode(['filter'=>['search'=>$searchphrase],'page'=>$request->page??1, 'take'=> $take, 'include'=>['user']])));
+            $result['post']=["title"=>trans('iblog::post.title.posts'),'items'=>$items];
+        }
+
+      if (count($items)) $results_post = PostTransformer::collection($items);
       if (!isset($results_post) && empty($results_post)) $results_post = null;
 
 
