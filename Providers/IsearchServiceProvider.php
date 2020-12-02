@@ -3,6 +3,7 @@
 namespace Modules\Isearch\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Livewire\Livewire;
 use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Iblog\Entities\Post;
 use Modules\Isearch\Repositories\Cache\CacheSearchDecorator;
@@ -34,6 +35,7 @@ class IsearchServiceProvider extends ServiceProvider
     {
         $this->publishConfig('isearch', 'permissions');
         $this->publishConfig('isearch', 'config');
+        $this->registerComponentsLivewire();
     }
 
     /**
@@ -59,5 +61,13 @@ class IsearchServiceProvider extends ServiceProvider
             return new CacheSearchDecorator($repository);
         });
 */
+    }
+
+    /**
+     * Register components Livewire
+     */
+    private function registerComponentsLivewire()
+    {
+        Livewire::component('isearch::search', \Modules\Isearch\Http\Livewire\Search::class);
     }
 }
