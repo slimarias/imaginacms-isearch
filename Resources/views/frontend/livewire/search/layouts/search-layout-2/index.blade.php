@@ -1,80 +1,70 @@
 <div>
     <div id="search-box" @if($showModal) class="d-none d-lg-block" @endif>
-        <div class="search-product row no-gutters">
-            <div class="col">
-                <div id="content_searcher" class="dropdown">
-                    <!-- input -->
-                    <div id="dropdownSearch"
-                         data-toggle="dropdown"
-                         aria-haspopup="true"
-                         aria-expanded="false"
-                         role="button"
-                         class="input-group dropdown-toggle">
-                        <div class="input-group">
-                            <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
-                                   class="form-control  rounded-right"
-                                   placeholder="Busca aquí tu producto"
-                                   aria-label="Busca aquí tu producto" aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary px-3 " type="submit" id="button-addon2">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
+        <div class="search-product">
+            <div id="content_searcher" class="dropdown {{ $this->search ? 'show' : '' }}">
+                <!-- input -->
+                <div id="dropdownSearch"
+                     data-toggle="dropdown"
+                     aria-haspopup="true"
+                     aria-expanded="false"
+                     role="button"
+                     class="input-group dropdown-toggle">
+                    <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
+                           class="form-control rounded-right"
+                           placeholder="{{ $placeholder }}"
+                           aria-label="{{ $placeholder }}" aria-describedby="button-addon2" />
+                    <div class="input-group-append">
+                        <button class="btn btn-primary px-3" type="submit" id="button-addon2">
+                            <i class="{{ $icon }}"></i>
+                        </button>
                     </div>
-                    @if($error)
-                        <div class="alert alert-danger" role="alert">{{ $error }}</div>
-                @endif
+                </div>
                 <!-- dropdown search result -->
-                    <div id="display_result"
-                         class="dropdown-menu w-100 rounded-0 py-3 m-0"
-                         aria-labelledby="dropdownSearch"
-                         style="z-index: 999999;">
-                        @if(!empty($search))
-                            @if(count($results) > 0)
-                                <div>
-                                    @foreach($results as $item)
-                                        <div class="cart-items px-3 mb-3" style="max-height: 70px" wire:key="{{ $loop->index }}">
-                                            <!--Shopping cart items -->
-                                            <div class="cart-items-item row">
+                <div id="display_result"
+                     class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search ? 'show' : '' }}"
+                     aria-labelledby="dropdownSearch"
+                     style="z-index: 999999;max-height: 480px">
+                    @if(!empty($search))
+                        @if(count($results) > 0)
+                            <div>
+                                @foreach($results as $item)
+                                    <div class="cart-items px-3 mb-3" style="max-height: 70px" wire:key="{{ $loop->index }}">
+                                        <!--Shopping cart items -->
+                                        <div class="cart-items-item row">
 
-                                                <!-- image -->
-                                                <a href="{{ $item->url }}"
-                                                   class="cart-img pr-0  float-left col-2 text-center">
-                                                    <img class="img-fluid"
-                                                         src="{{ $item->mediaFiles()->mainimage->smallThumb }}"
-                                                         alt="{{ $item->name ?? $item->title }}"
-                                                         style="max-height: 76px; width: 70px; object-fit: cover;">
-                                                </a>
-                                                <!-- dates -->
-                                                <div class="col-10">
-                                                    <!-- title -->
-                                                    <p class="category mb-1">
-                                                        <small class="text-truncate"> {{ $item->category->title }}</small>
-                                                    </p>
-                                                    <h6 class="mb-0">
-                                                        <a href="{{ $item->url }}" title="{{ $item->name ?? $item->title }}"
-                                                           class="font-weight-bold text-lowercase text-truncate d-block">
-                                                            {{ $item->name ?? $item->title }}
-                                                        </a>
-                                                    </h6>
-                                                </div>
+                                            <!-- image -->
+                                            <a href="{{ $item->url }}"
+                                               class="cart-img pr-0  float-left col-2 text-center">
+                                                <img class="img-fluid"
+                                                     src="{{ $item->mainImage->smallThumb }}"
+                                                     alt="{{ $item->title }}"
+                                                     style="max-height: 76px; width: 70px; object-fit: cover;">
+                                            </a>
+                                            <!-- dates -->
+                                            <div class="col-10">
+                                                <!-- title -->
+                                                <h6 class="mb-0">
+                                                    <a href="{{ $item->url }}" title="{{ $item->title }}"
+                                                       class="font-weight-bold text-capitalize text-truncate d-block">
+                                                        {{ $item->title }}
+                                                    </a>
+                                                </h6>
                                             </div>
                                         </div>
-                                        <hr>
-                                    @endforeach
-                                </div>
-                            @else
-                                <h6 class="text-primary text-center">
-                                    {{ trans('icommerce::common.search.no_results') }}
-                                </h6>
-                            @endif
+                                    </div>
+                                    <hr>
+                                @endforeach
+                            </div>
                         @else
                             <h6 class="text-primary text-center">
                                 {{ trans('icommerce::common.search.no_results') }}
                             </h6>
                         @endif
-                    </div>
+                    @else
+                        <h6 class="text-primary text-center">
+                            {{ trans('icommerce::common.search.no_results') }}
+                        </h6>
+                    @endif
                 </div>
             </div>
         </div>
@@ -92,7 +82,7 @@
                             <img src="{{ Theme::url('img/logo.png') }}" class="img-fluid mx-auto py-2"/>
                         </div>
                         <h5 class="text-center my-4 font-weight-bold">
-                            Encuentra los mejores productos con diseño de autor
+                            {{ $title }}
                         </h5>
                         <div id="search-box">
                             <div class="search-product row no-gutters">
@@ -108,19 +98,15 @@
                                             <div class="input-group">
                                                 <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
                                                        class="form-control  rounded-right"
-                                                       placeholder="Busca aquí tu producto"
-                                                       aria-label="Busca aquí tu producto" aria-describedby="button-addon2">
+                                                       placeholder="{{ $placeholder }}"
+                                                       aria-label="{{ $placeholder }}" aria-describedby="button-addon2">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-primary px-3 " type="submit" id="button-addon2">
-                                                        <span class="d-none d-sm-block">Busqueda</span>
-                                                        <i class="fa fa-search d-block d-sm-none"></i>
+                                                        <i class="{{ $icon }}"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        @if($error)
-                                            <div class="alert alert-danger" role="alert">{{ $error }}</div>
-                                        @endif
                                         <!-- dropdown search result -->
                                         <div id="display_result"
                                              class="dropdown-menu w-100 rounded-0 py-3 m-0"
@@ -138,20 +124,17 @@
                                                                     <a href="{{ $item->url }}"
                                                                        class="cart-img pr-0  float-left col-auto text-center">
                                                                         <img class="img-fluid"
-                                                                             src="{{ $item->mediaFiles()->mainimage->smallThumb }}"
-                                                                             alt="{{ $item->name ?? $item->title }}"
+                                                                             src="{{ $item->mainImage->smallThumb }}"
+                                                                             alt="{{ $item->title }}"
                                                                              style="max-height: 76px; width: 70px; object-fit: cover;">
                                                                     </a>
                                                                     <!-- dates -->
                                                                     <div class="float-left col-9">
                                                                         <!-- title -->
-                                                                        <p class="category mb-1">
-                                                                            <small> {{ $item->category->title }}</small>
-                                                                        </p>
                                                                         <h6 class="mb-0">
                                                                             <a href="{{ $item->url }}"
-                                                                               class="font-weight-bold text-lowercase">
-                                                                                {{ $item->name ?? $item->title }}
+                                                                               class="font-weight-bold text-capitalize">
+                                                                                {{ $item->title }}
                                                                             </a>
                                                                         </h6>
                                                                     </div>

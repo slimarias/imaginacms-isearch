@@ -11,12 +11,12 @@
                         <img src="{{ Theme::url('img/logo.png') }}" class="img-fluid mx-auto py-2"/>
                     </div>
                     <h5 class="text-center my-4 font-weight-bold">
-                        Encuentra los mejores productos con diseño de autor
+                        {{ $title }}
                     </h5>
                     <div id="search-box">
                         <div class="search-product row no-gutters">
                             <div class="col">
-                                <div id="content_searcher" class="dropdown">
+                                <div id="content_searcher" class="dropdown {{ $this->search ? 'show' : '' }}">
                                     <!-- input -->
                                     <div id="dropdownSearch"
                                          data-toggle="dropdown"
@@ -27,50 +27,43 @@
                                         <div class="input-group">
                                             <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
                                                    class="form-control  rounded-right"
-                                                   placeholder="Busca aquí tu producto"
-                                                   aria-label="Busca aquí tu producto" aria-describedby="button-addon2">
+                                                   placeholder="{{ $placeholder }}"
+                                                   aria-label="{{ $placeholder }}" aria-describedby="button-addon2">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary px-3 " type="submit" id="button-addon2">
-                                                    <span class="d-none d-sm-block">Busqueda</span>
-                                                    <i class="fa fa-search d-block d-sm-none"></i>
+                                                    <i class="{{ $icon }}"></i>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    @if($error)
-                                        <div class="alert alert-danger" role="alert">{{ $error }}</div>
-                                    @endif
                                     <!-- dropdown search result -->
                                     <div id="display_result"
-                                         class="dropdown-menu w-100 rounded-0 py-3 m-0"
+                                         class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search ? 'show' : '' }}"
                                          aria-labelledby="dropdownSearch"
-                                         style="z-index: 999999;">
+                                         style="z-index: 999999;max-height: 480px;">
                                         @if(!empty($search))
                                             @if(count($results) > 0)
                                                 <div>
                                                     @foreach($results as $item)
                                                         <div class="cart-items px-3 mb-3" style="max-height: 70px" wire:key="{{ $loop->index }}">
                                                             <!--Shopping cart items -->
-                                                            <div class="cart-items-item row">
+                                                            <div class$="cart-items-item row">
 
                                                                 <!-- image -->
                                                                 <a href="{{ $item->url }}"
                                                                    class="cart-img pr-0  float-left col-auto text-center">
                                                                     <img class="img-fluid"
-                                                                         src="{{ $item->mediaFiles()->mainimage->smallThumb }}"
-                                                                         alt="{{ $item->name ?? $item->title }}"
+                                                                         src="{{ $item->mainImage->smallThumb }}"
+                                                                         alt="{{ $item->title }}"
                                                                          style="max-height: 76px; width: 70px; object-fit: cover;">
                                                                 </a>
                                                                 <!-- dates -->
                                                                 <div class="float-left col-9">
                                                                     <!-- title -->
-                                                                    <p class="category mb-1">
-                                                                        <small> {{ $item->category->title }}</small>
-                                                                    </p>
                                                                     <h6 class="mb-0">
                                                                         <a href="{{ $item->url }}"
-                                                                           class="font-weight-bold text-lowercase">
-                                                                            {{ $item->name ?? $item->title }}
+                                                                           class="font-weight-bold text-capitalize">
+                                                                            {{ $item->title }}
                                                                         </a>
                                                                     </h6>
                                                                 </div>

@@ -2,15 +2,11 @@
 
 namespace Modules\Isearch\Http\Livewire;
 
-use \Illuminate\Session\SessionManager;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
-use Illuminate\Http\Request;
-use Modules\Iblog\Transformers\PostTransformer;
 use Modules\Icommerce\Repositories\ProductRepository;
 use Modules\Iblog\Repositories\PostRepository;
-use Illuminate\Support\Arr;
-use Modules\Icommerce\Transformers\ProductTransformer;
+use Modules\Isearch\Transformers\SearchItemTransformer;
 
 class Search extends Component
 {
@@ -19,34 +15,38 @@ class Search extends Component
     public $defaultView;
     public $params;
     public $results;
-    public $error;
     public $showModal;
+    public $icon;
+    public $placeholder;
+    public $title;
 
 
-    public function mount($layout = 'layout-1', $showModal = false, $params = [])
+    public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = 'Encuentra los mejores productos', $params = [])
     {
-        $this->defaultView = 'isearch::frontend.livewire.search.layouts.layout-1.index';
+        $this->defaultView = 'isearch::frontend.livewire.search.layouts.search-layout-1.index';
         $this->view = isset($layout) ?'isearch::frontend.livewire.search.layouts.'.$layout.'.index' : $this->defaultView;
-        $this->params = $params;
         $this->results = [];
-        $this->error = "";
-        $this->showModal = $showModal;
+        $this->showModal = isset($showModal) ? $showModal : false;
+        $this->icon = isset($icon) ? $icon :'fa-search';
+        $this->placeholder = $placeholder;
+        $this->title = $title;
 
     }
 
     private function makeParamsFunction(){
-
         return [
             "include" => $this->params["include"] ?? [],
             "take" => $this->params["take"] ?? 12,
             "page" => $this->params["page"] ?? false,
-            "filter" => $this->params["filter"] ?? ["search" => $this->search ?? null, "locale" => \App::getLocale()],
+            "filter" => $this->params["filter"] ?? ["search" => $this->search, "locale" => \App::getLocale()],
             "order" => $this->params["order"] ?? null,
         ];
     }
 
     public function render()
     {
+
+        $params = $this->makeParamsFunction();
 
         $validatedData = Validator::make(
             ['search' => $this->search],
@@ -57,26 +57,29 @@ class Search extends Component
 
             if ($validatedData->fails()) {
                 $this->results = [];
-                $this->error = "El campo de búsqueda es requerido y debe tener al menos 4 caracteres";
+                $this->alert('error', trans('isearch::common.index.Not Valid'), config("asgard.isite.config.livewireAlerts"));
             } else {
 
-                $params = $this->makeParamsFunction();
 
                 if (is_module_enabled('Iblog')) {
 
-                    $this->results = $this->postRepository()->getItemsBy(json_decode(json_encode($params)));
+                    $this->results = SearchItemTransformer::collection($this->postRepository()->getItemsBy(json_decode(json_encode($params))));
                 }
 
                 if (is_module_enabled('Icommerce')) {
-                    $products = $this->productRepository()->getItemsBy(json_decode(json_encode($params)));
+                    $products = SearchItemTransformer::collection($this->productRepository()->getItemsBy(json_decode(json_encode($params))));
                     if (is_module_enabled('Iblog')) {
-                        $this->results = $this->results->merge($products);
+                        $this->results = $this->results->concat($products);
                     } else {
                         $this->results = $products;
                     }
                 }
 
-                $this->error = "";
+                $results = collect(json_decode(json_encode($this->results->jsonSerialize())));
+
+                $this->results = $results->sortBy('title')->toArray();
+
+                //dd($this->results);
 
             }
         }
@@ -101,6 +104,5 @@ class Search extends Component
     {
         return app('Modules\Iblog\Repositories\PostRepository');
     }
-
 
 }
