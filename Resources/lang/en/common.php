@@ -22,4 +22,7 @@ return [
     ],
     'validation' => [
     ],
+    'settings' => [
+        'minSearchChars' => 'Min. Search Chars'
+    ]
 ];

@@ -10,4 +10,5 @@ return [
         'itourism'=>false,
         'iperformer'=>false
     ],
+    'minSearchChars' => 3,
 ];

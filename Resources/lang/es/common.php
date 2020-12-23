@@ -23,5 +23,8 @@ return [
     ],
     'validation' => [
     ],
+    'settings' => [
+        'minSearchChars' => 'Mínimo de Caracteres para Búsqueda'
+    ]
 
 ];
