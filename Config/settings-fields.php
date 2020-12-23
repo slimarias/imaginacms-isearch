@@ -3,7 +3,7 @@
 return [
   'minSearchChars' => [
     'name' => 'isearch::minSearchChars',
-    'value' => null,
+    'value' => '3',
     'type' => 'input',
     'columns' => 'col-12 col-md-6',
     'props' => [
