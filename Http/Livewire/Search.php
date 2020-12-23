@@ -19,6 +19,7 @@ class Search extends Component
     public $icon;
     public $placeholder;
     public $title;
+    public $minSearchChars;
 
 
     public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = 'Encuentra los mejores productos', $params = [])
@@ -30,6 +31,8 @@ class Search extends Component
         $this->icon = isset($icon) ? $icon :'fa-search';
         $this->placeholder = $placeholder;
         $this->title = $title;
+        $minSearchChars = setting('isearch::minSearchChars',null,"3");
+        $this->minSearchChars = $minSearchChars;
 
     }
 
@@ -50,7 +53,7 @@ class Search extends Component
 
         $validatedData = Validator::make(
             ['search' => $this->search],
-            ['search' => 'required|min:4'],
+            ['search' => 'required|min:'.$this->minSearchChars],
         );
 
         if($this->search) {
