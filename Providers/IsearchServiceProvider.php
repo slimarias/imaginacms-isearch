@@ -36,6 +36,7 @@ class IsearchServiceProvider extends ServiceProvider
         $this->publishConfig('isearch', 'permissions');
         $this->publishConfig('isearch', 'config');
         $this->publishConfig('isearch', 'settings');
+        $this->publishConfig('isearch', 'settings-fields');
         $this->registerComponentsLivewire();
     }
 
