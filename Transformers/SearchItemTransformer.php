@@ -15,7 +15,8 @@ class SearchItemTransformer extends JsonResource
             'title' => $this->name ?? $this->title ?? '',
             'slug' => $this->slug ?? '',
             'url' => $this->url ?? '',
-            'mainImage' => $this->mediaFiles()->mainimage,
+            'mediaFiles' => $this->mediaFiles(),
+            'category' => new SearchItemTransformer($this->whenLoaded('category'))
         ];
 
         return $data;

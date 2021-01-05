@@ -38,7 +38,7 @@ class Search extends Component
 
     private function makeParamsFunction(){
         return [
-            "include" => $this->params["include"] ?? [],
+            "include" => $this->params["include"] ?? ['category'],
             "take" => $this->params["take"] ?? 12,
             "page" => $this->params["page"] ?? false,
             "filter" => $this->params["filter"] ?? ["search" => $this->search, "locale" => \App::getLocale()],
@@ -86,11 +86,14 @@ class Search extends Component
 
             }
         }
-
+     // dd($this->results);
         return view($this->view);
 
     }
 
+    public function goToIndex(){
+      $this->redirect( \URL::route(\LaravelLocalization::getCurrentLocale() . '.icommerce.store.index').'?search='.$this->search);
+  }
 
     /**
      * @return productRepository

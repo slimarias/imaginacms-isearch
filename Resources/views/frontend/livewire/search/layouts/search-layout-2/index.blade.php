@@ -9,7 +9,8 @@
                      aria-expanded="false"
                      role="button"
                      class="input-group dropdown-toggle">
-                    <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
+                    <input type="text" id="input_search" wire:model.debounce.500ms="search" autocomplete="off"
+                           wire:keydown.enter="goToIndex"
                            class="form-control rounded-right"
                            placeholder="{{ $placeholder }}"
                            aria-label="{{ $placeholder }}" aria-describedby="button-addon2" />
@@ -33,22 +34,31 @@
                                         <div class="cart-items-item row">
 
                                             <!-- image -->
-                                            <a href="{{ $item->url }}"
-                                               class="cart-img pr-0  float-left col-2 text-center">
-                                                <img class="img-fluid"
-                                                     src="{{ $item->mainImage->smallThumb }}"
-                                                     alt="{{ $item->title }}"
-                                                     style="max-height: 76px; width: 70px; object-fit: cover;">
-                                            </a>
+                                            <div class="col-2">
+                                                <x-media::single-image :alt="$item->title"
+                                                                       :title="$item->title"
+                                                                       :isMedia="true"
+                                                                       :url="$item->url"
+                                                                       :mediaFiles="$item->mediaFiles"
+                                                                       imgClasses="cover-img"/>
+                                            </div>
                                             <!-- dates -->
                                             <div class="col-10">
                                                 <!-- title -->
-                                                <h6 class="mb-0">
-                                                    <a href="{{ $item->url }}" title="{{ $item->title }}"
-                                                       class="font-weight-bold text-capitalize text-truncate d-block">
+                                                <h5 class="mb-0">
+                                                    <a href="{{ $item->url }}"
+                                                       class="font-weight-bold text-capitalize">
                                                         {{ $item->title }}
                                                     </a>
-                                                </h6>
+                                                </h5>
+                                                @if(isset($item->category->title))
+                                                    <h6 class="mb-0">
+                                                        <a href="{{ $item->category->url }}"
+                                                           class="text-capitalize">
+                                                            {{ $item->category->title }}
+                                                        </a>
+                                                    </h6>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +106,8 @@
                                              role="button"
                                              class="input-group dropdown-toggle">
                                             <div class="input-group">
-                                                <input type="text" id="input_search" wire:model.debounce.1000ms="search" autocomplete="off"
+                                                <input type="text" id="input_search" wire:model.debounce.1000ms="search"
+                                                       autocomplete="off" wire:keydown.enter="goToIndex"
                                                        class="form-control  rounded-right"
                                                        placeholder="{{ $placeholder }}"
                                                        aria-label="{{ $placeholder }}" aria-describedby="button-addon2">
@@ -121,22 +132,33 @@
                                                                 <div class="cart-items-item row">
 
                                                                     <!-- image -->
-                                                                    <a href="{{ $item->url }}"
-                                                                       class="cart-img pr-0  float-left col-auto text-center">
-                                                                        <img class="img-fluid"
-                                                                             src="{{ $item->mainImage->smallThumb }}"
-                                                                             alt="{{ $item->title }}"
-                                                                             style="max-height: 76px; width: 70px; object-fit: cover;">
-                                                                    </a>
+                                                                    <div class="col-3">
+                                                                        <x-media::single-image :alt="$item->title"
+                                                                                               :title="$item->title"
+                                                                                               :isMedia="true"
+                                                                                               :url="$item->url"
+                                                                                               :mediaFiles="$item->mediaFiles"
+                                                                                               imgClasses="cover-img"/>
+
+                                                                    </div>
+                                                                    
                                                                     <!-- dates -->
                                                                     <div class="float-left col-9">
                                                                         <!-- title -->
-                                                                        <h6 class="mb-0">
+                                                                        <h5 class="mb-0">
                                                                             <a href="{{ $item->url }}"
                                                                                class="font-weight-bold text-capitalize">
                                                                                 {{ $item->title }}
                                                                             </a>
-                                                                        </h6>
+                                                                        </h5>
+                                                                        @if(isset($item->category->title))
+                                                                            <h6 class="mb-0">
+                                                                                <a href="{{ $item->category->url }}"
+                                                                                   class=" text-capitalize">
+                                                                                    {{ $item->category->title }}
+                                                                                </a>
+                                                                            </h6>
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
