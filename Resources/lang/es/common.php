@@ -9,7 +9,7 @@ return [
         'Not Found'=> 'Busqueda no encontrada',
         'Not msg' => 'Lo sentimos, no se a encontrado resultado de busqueda!',
         'Not btn' => 'Ir al Inicio',
-        'Not Valid' => 'El campo de búsqueda debe tener al menos 4 caracteres',
+        'Not Valid' => 'El campo de búsqueda debe tener al menos :minSearchChars caracteres',
         'Read More'=> 'Ver Mas'
     ],
     'button' => [

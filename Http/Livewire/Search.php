@@ -60,7 +60,7 @@ class Search extends Component
 
             if ($validatedData->fails()) {
                 $this->results = [];
-                $this->alert('error', trans('isearch::common.index.Not Valid'), config("asgard.isite.config.livewireAlerts"));
+                $this->alert('error', trans('isearch::common.index.Not Valid',["minSearchChars" => $this->minSearchChars]), config("asgard.isite.config.livewireAlerts"));
             } else {
 
 
