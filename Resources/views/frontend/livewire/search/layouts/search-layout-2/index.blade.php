@@ -15,7 +15,7 @@
                            placeholder="{{ $placeholder }}"
                            aria-label="{{ $placeholder }}" aria-describedby="button-addon2" />
                     <div class="input-group-append">
-                        <button class="btn btn-primary px-3" type="submit" id="button-addon2">
+                        <button class="btn btn-primary px-3"  wire:click="goToIndex" type="submit" id="button-addon2">
                             <i class="{{ $icon }}"></i>
                         </button>
                     </div>

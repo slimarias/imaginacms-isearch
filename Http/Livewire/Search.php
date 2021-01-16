@@ -92,7 +92,8 @@ class Search extends Component
     }
 
     public function goToIndex(){
-      $this->redirect( \URL::route(\LaravelLocalization::getCurrentLocale() . '.icommerce.store.index').'?search='.$this->search);
+      if(!empty($this->search))
+        $this->redirect( \URL::route(\LaravelLocalization::getCurrentLocale() . '.icommerce.store.index').'?search='.$this->search);
   }
 
     /**
