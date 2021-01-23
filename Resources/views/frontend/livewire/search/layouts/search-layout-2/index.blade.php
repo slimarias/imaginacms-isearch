@@ -34,7 +34,7 @@
                                         <div class="cart-items-item row">
 
                                             <!-- image -->
-                                            <div class="col-2">
+                                            <div class="col-2 px-0">
                                                 <x-media::single-image :alt="$item->title"
                                                                        :title="$item->title"
                                                                        :isMedia="true"
@@ -45,19 +45,19 @@
                                             <!-- dates -->
                                             <div class="col-10">
                                                 <!-- title -->
-                                                <h5 class="mb-0">
+                                                <h6 class="mb-0">
                                                     <a href="{{ $item->url }}"
-                                                       class="font-weight-bold text-capitalize">
+                                                       class="text-dark">
                                                         {{ $item->title }}
                                                     </a>
                                                 </h5>
                                                 @if(isset($item->category->title))
-                                                    <h6 class="mb-0">
+                                                    <h7 class="mb-0">
                                                         <a href="{{ $item->category->url }}"
                                                            class="text-capitalize">
                                                             {{ $item->category->title }}
                                                         </a>
-                                                    </h6>
+                                                    </h7>
                                                 @endif
                                             </div>
                                         </div>
