@@ -102,7 +102,7 @@ class Search extends Component
       $routeLink = config('asgard.isearch.config.route','isearch.index');
       $rl = $routeLink;
       if(!empty($this->search)) {
-          if(!Route::has($rl)){ //if route does not exist with locale, pass route with locale
+          if(!Route::has($rl)){ //if route does not exist without locale, pass route with locale
               $rl = $locale.'.'.$routeLink;
           }
           if(!Route::has($rl)){ //if route with locale does not exist either, pass the isearch default route
