@@ -2,8 +2,10 @@
 
 namespace Modules\Isearch\Http\Livewire;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Icommerce\Repositories\ProductRepository;
 use Modules\Iblog\Repositories\PostRepository;
 use Modules\Isearch\Transformers\SearchItemTransformer;
@@ -20,6 +22,10 @@ class Search extends Component
     public $placeholder;
     public $title;
     public $minSearchChars;
+
+    protected $queryString = [
+        'search' => ['except' => ''],
+    ];
 
 
     public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = 'Encuentra los mejores productos', $params = [])
@@ -92,8 +98,19 @@ class Search extends Component
     }
 
     public function goToIndex(){
-      $this->redirect( \URL::route(\LaravelLocalization::getCurrentLocale() . '.icommerce.store.index').'?search='.$this->search);
-  }
+      $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
+      $routeLink = config('asgard.isearch.config.route','isearch.index');
+      $rl = $routeLink;
+      if(!empty($this->search)) {
+          if(!Route::has($rl)){ //if route does not exist with locale, pass route with locale
+              $rl = $locale.'.'.$routeLink;
+          }
+          if(!Route::has($rl)){ //if route with locale does not exist either, pass the isearch default route
+              $rl = $locale.'.isearch.index';
+          }
+          $this->redirect(\URL::route($rl) . '?search=' . $this->search);
+      }
+    }
 
     /**
      * @return productRepository

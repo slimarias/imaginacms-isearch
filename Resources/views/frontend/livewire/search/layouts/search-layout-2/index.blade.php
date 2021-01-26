@@ -15,14 +15,14 @@
                            placeholder="{{ $placeholder }}"
                            aria-label="{{ $placeholder }}" aria-describedby="button-addon2" />
                     <div class="input-group-append">
-                        <button class="btn btn-primary px-3" type="submit" id="button-addon2">
+                        <button class="btn btn-primary px-3"  wire:click="goToIndex" type="submit" id="button-addon2">
                             <i class="{{ $icon }}"></i>
                         </button>
                     </div>
                 </div>
                 <!-- dropdown search result -->
                 <div id="display_result"
-                     class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search ? 'show' : '' }}"
+                     class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search && !request()->has('search') ? 'show' : '' }}"
                      aria-labelledby="dropdownSearch"
                      style="z-index: 999999;max-height: 480px">
                     @if(!empty($search))
@@ -34,7 +34,7 @@
                                         <div class="cart-items-item row">
 
                                             <!-- image -->
-                                            <div class="col-2">
+                                            <div class="col-2 px-0">
                                                 <x-media::single-image :alt="$item->title"
                                                                        :title="$item->title"
                                                                        :isMedia="true"
@@ -45,19 +45,19 @@
                                             <!-- dates -->
                                             <div class="col-10">
                                                 <!-- title -->
-                                                <h5 class="mb-0">
+                                                <h6 class="mb-0">
                                                     <a href="{{ $item->url }}"
-                                                       class="font-weight-bold text-capitalize">
+                                                       class="text-dark">
                                                         {{ $item->title }}
                                                     </a>
                                                 </h5>
                                                 @if(isset($item->category->title))
-                                                    <h6 class="mb-0">
+                                                    <h7 class="mb-0">
                                                         <a href="{{ $item->category->url }}"
                                                            class="text-capitalize">
                                                             {{ $item->category->title }}
                                                         </a>
-                                                    </h6>
+                                                    </h7>
                                                 @endif
                                             </div>
                                         </div>
@@ -109,6 +109,7 @@
                                                 <input type="text" id="input_search" wire:model.debounce.1000ms="search"
                                                        autocomplete="off" wire:keydown.enter="goToIndex"
                                                        class="form-control  rounded-right"
+                                                       value="{{ $this->search }}"
                                                        placeholder="{{ $placeholder }}"
                                                        aria-label="{{ $placeholder }}" aria-describedby="button-addon2">
                                                 <div class="input-group-append">
@@ -141,7 +142,7 @@
                                                                                                imgClasses="cover-img"/>
 
                                                                     </div>
-                                                                    
+
                                                                     <!-- dates -->
                                                                     <div class="float-left col-9">
                                                                         <!-- title -->
