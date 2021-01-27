@@ -22,7 +22,7 @@
                 </div>
                 <!-- dropdown search result -->
                 <div id="display_result"
-                     class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search ? 'show' : '' }}"
+                     class="dropdown-menu w-100 rounded-0 py-3 m-0 overflow-auto {{ $this->search && !request()->has('search') ? 'show' : '' }}"
                      aria-labelledby="dropdownSearch"
                      style="z-index: 999999;max-height: 480px">
                     @if(!empty($search))
@@ -89,7 +89,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <div class="text-center">
-                            <img src="{{ Theme::url('img/logo.png') }}" class="img-fluid mx-auto py-2"/>
+                            <x-isite::logo />
                         </div>
                         <h5 class="text-center my-4 font-weight-bold">
                             {{ $title }}
@@ -109,6 +109,7 @@
                                                 <input type="text" id="input_search" wire:model.debounce.1000ms="search"
                                                        autocomplete="off" wire:keydown.enter="goToIndex"
                                                        class="form-control  rounded-right"
+                                                       value="{{ $this->search }}"
                                                        placeholder="{{ $placeholder }}"
                                                        aria-label="{{ $placeholder }}" aria-describedby="button-addon2">
                                                 <div class="input-group-append">
@@ -141,7 +142,7 @@
                                                                                                imgClasses="cover-img"/>
 
                                                                     </div>
-                                                                    
+
                                                                     <!-- dates -->
                                                                     <div class="float-left col-9">
                                                                         <!-- title -->

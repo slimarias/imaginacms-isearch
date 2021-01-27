@@ -8,7 +8,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="text-center">
-                        <img src="{{ Theme::url('img/logo.png') }}" class="img-fluid mx-auto py-2"/>
+                        <x-isite::logo />
                     </div>
                     <h5 class="text-center my-4 font-weight-bold">
                         {{ $title }}
@@ -60,7 +60,7 @@
                                                                                            :url="$item->url"
                                                                                            :mediaFiles="$item->mediaFiles"
                                                                                            imgClasses="cover-img"/>
-    
+
                                                                 </div>
                                                                 <!-- dates -->
                                                                 <div class="float-left col-9">
