@@ -6,9 +6,14 @@
     <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true" wire:ignore.self>
         <div class="modal-dialog  modal-lg" role="document">
             <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <div class="text-center">
-                        <x-isite::logo />
+                        <x-isite::logo imgClasses="text-center d-inline-block search-logo" />
                     </div>
                     <h5 class="text-center my-4 font-weight-bold">
                         {{ $title }}
@@ -97,11 +102,6 @@
                                         @endif
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-auto">
-                                <a class="btn btn-secondary text-white px-3" style="border-radius: 0 0.5rem 0.5rem 0;" type="button" class="close my-0" data-dismiss="modal" aria-label="Close">
-                                    <i class="fa fa-close"></i>
-                                </a>
                             </div>
                         </div>
                     </div>
