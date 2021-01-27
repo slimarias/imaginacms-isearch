@@ -2,10 +2,8 @@
 
 namespace Modules\Isearch\Http\Livewire;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use Modules\Icommerce\Repositories\ProductRepository;
 use Modules\Iblog\Repositories\PostRepository;
 use Modules\Isearch\Transformers\SearchItemTransformer;
