@@ -28,7 +28,7 @@ class Search extends Component
     ];
 
 
-    public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = 'Encuentra los mejores productos', $params = [])
+    public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = '', $params = [])
     {
         $this->defaultView = 'isearch::frontend.livewire.search.layouts.search-layout-1.index';
         $this->view = isset($layout) ?'isearch::frontend.livewire.search.layouts.'.$layout.'.index' : $this->defaultView;
