@@ -1,4 +1,15 @@
 .search-logo{
   max-height: 100px;
+  min-height: 100px;
   width: auto!important;
+}
+@include media-breakpoint-down(md) {
+  .search-logo {
+    min-height: 40px;
+  }
+}
+
+.cover-img{
+  object-fit: cover;
+  max-height: 70px;
 }

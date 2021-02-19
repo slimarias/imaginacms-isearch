@@ -28,7 +28,7 @@ class Search extends Component
     ];
 
 
-    public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = 'Encuentra los mejores productos', $params = [])
+    public function mount($layout = 'search-layout-1', $showModal = false, $icon = 'fa fa-search', $placeholder = 'Busca aquí', $title = '', $params = [])
     {
         $this->defaultView = 'isearch::frontend.livewire.search.layouts.search-layout-1.index';
         $this->view = isset($layout) ?'isearch::frontend.livewire.search.layouts.'.$layout.'.index' : $this->defaultView;
@@ -99,7 +99,7 @@ class Search extends Component
 
     public function goToIndex(){
       $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
-      $routeLink = config('asgard.isearch.config.route','isearch.index');
+      $routeLink = config('asgard.isearch.config.route','isearch.search');
       $rl = $routeLink;
       if(!empty($this->search)) {
           if(!Route::has($rl)){ //if route does not exist without locale, pass route with locale
