@@ -106,7 +106,7 @@ class Search extends Component
               $rl = $locale.'.'.$routeLink;
           }
           if(!Route::has($rl)){ //if route with locale does not exist either, pass the isearch default route
-              $rl = $locale.'.isearch.index';
+              $rl = $locale.'.isearch.search';
           }
           $this->redirect(\URL::route($rl) . '?search=' . $this->search);
       }
