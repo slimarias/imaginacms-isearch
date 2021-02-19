@@ -99,7 +99,7 @@ class Search extends Component
 
     public function goToIndex(){
       $locale = LaravelLocalization::setLocale() ?: \App::getLocale();
-      $routeLink = config('asgard.isearch.config.route','isearch.index');
+      $routeLink = config('asgard.isearch.config.route','isearch.search');
       $rl = $routeLink;
       if(!empty($this->search)) {
           if(!Route::has($rl)){ //if route does not exist without locale, pass route with locale

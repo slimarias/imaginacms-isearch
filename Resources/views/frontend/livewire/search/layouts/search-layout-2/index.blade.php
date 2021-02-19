@@ -67,12 +67,12 @@
                             </div>
                         @else
                             <h6 class="text-primary text-center">
-                                {{ trans('icommerce::common.search.no_results') }}
+                                {{ trans('isearch::common.index.Not Found') }}
                             </h6>
                         @endif
                     @else
                         <h6 class="text-primary text-center">
-                            {{ trans('icommerce::common.search.no_results') }}
+                            {{ trans('isearch::common.index.Not Found') }}
                         </h6>
                     @endif
                 </div>
@@ -133,9 +133,9 @@
                                                 @if(count($results) > 0)
                                                     <div>
                                                         @foreach($results as $item)
-                                                            <div class="cart-items px-3 mb-3" style="max-height: 70px" wire:key="{{ $loop->index }}">
+                                                            <div class="px-3 mb-3" wire:key="{{ $loop->index }}">
                                                                 <!--Shopping cart items -->
-                                                                <div class="cart-items-item row">
+                                                                <div class="row" style="max-height: 70px">
 
                                                                     <!-- image -->
                                                                     <div class="col-3">
@@ -149,7 +149,7 @@
                                                                     </div>
 
                                                                     <!-- dates -->
-                                                                    <div class="float-left col-9">
+                                                                    <div class="col-9">
                                                                         <!-- title -->
                                                                         <h5 class="mb-0">
                                                                             <a href="{{ $item->url }}"
@@ -173,12 +173,12 @@
                                                     </div>
                                                 @else
                                                     <h6 class="text-primary text-center">
-                                                        {{ trans('icommerce::common.search.no_results') }}
+                                                        {{ trans('isearch::common.index.Not Found') }}
                                                     </h6>
                                                 @endif
                                             @else
                                                 <h6 class="text-primary text-center">
-                                                    {{ trans('icommerce::common.search.no_results') }}
+                                                    {{ trans('isearch::common.index.Not Found') }}
                                                 </h6>
                                             @endif
                                         </div>
