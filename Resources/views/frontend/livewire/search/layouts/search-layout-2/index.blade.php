@@ -1,4 +1,4 @@
-<div>
+<div id="searchLayout2">
     <div id="search-box" @if($showModal) class="d-none d-lg-block" @endif>
         <div class="search-product">
             <div id="content_searcher" class="dropdown {{ $this->search ? 'show' : '' }}">

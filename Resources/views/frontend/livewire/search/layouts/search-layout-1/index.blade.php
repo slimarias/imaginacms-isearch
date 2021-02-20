@@ -1,4 +1,4 @@
-<div>
+<div id="searchLayout1">
     <a data-toggle="modal" data-target="#searchModal"
        class="btn btn-link text-secondary icon cursor-pointer">
         <i class="fa fa-search"></i>
